@@ -34,11 +34,11 @@ const SearchBar = () => {
     refetch,
     isFetching,
     status,
-  } = useSearch(form.getValues("search"));
+    fetchStatus,
+  } = useSearch(form);
 
-  console.log(data, status, isFetching, isLoading);
-
-  const onSubmit = async (values: z.infer<typeof schema>) => {
+  console.log(form.getValues("search"));
+  const onSubmit = (values: z.infer<typeof schema>) => {
     try {
       refetch();
       setType(SearchType.Prompt);
@@ -82,9 +82,12 @@ const SearchBar = () => {
           <p className="text-xs text-zinc-300">press &#9166; to submit</p>
         </form>
       </Form>
-      <Suspense fallback={<Loading />}>
-        <PromptContainer />
-      </Suspense>
+      {isFetching && <Loading />}
+      {!isFetching && (
+        <Suspense fallback={<Loading />}>
+          <PromptContainer />
+        </Suspense>
+      )}
     </Fragment>
   );
 };

@@ -25,6 +25,8 @@ const PromptItem = ({ prompt }: { prompt: PropItemProps }) => {
     hashtags,
   } = prompt;
 
+  console.log(name, id);
+
   const handleLiClick = (tagId: string) => {
     router.push(`/post/tag/${tagId}`);
   };

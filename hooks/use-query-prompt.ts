@@ -5,6 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import qs from "query-string";
+import { UseFormReturn } from "react-hook-form";
 
 type PromptWithTags = Prompt & {
   hashtags: Pick<Hashtag, "title">[];
@@ -20,7 +21,9 @@ const fetchPromptById = (id: string): Promise<PromptWithTags> => {
   });
 };
 
-const fetchSearch = async (search: string) => {
+const fetchSearch = async (form: UseFormReturn<{ search: string }>) => {
+  const search = form.getValues("search");
+
   const url = qs.stringifyUrl({
     url: "/api/search",
     query: {
@@ -28,6 +31,7 @@ const fetchSearch = async (search: string) => {
     },
   });
   const res = await fetch(url);
+
   return res.json();
 };
 
@@ -46,8 +50,8 @@ export const useTag = (tagId: string) => {
 };
 
 // pause
-export const useSearch = (search: string) => {
-  return useQuery(["search"], () => fetchSearch(search), {
+export const useSearch = (form: UseFormReturn<{ search: string }>) => {
+  return useQuery(["search"], () => fetchSearch(form), {
     cacheTime: 1 * 60 * 1000,
     enabled: false,
   });

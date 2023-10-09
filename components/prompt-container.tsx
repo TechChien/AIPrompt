@@ -38,7 +38,14 @@ const PromptContainer = () => {
         _id: { $oid: id },
         isdeleted,
         title,
-        user,
+        user: [
+          {
+            name,
+            email,
+            image,
+            _id: { $oid: userid },
+          },
+        ],
         hashtag,
       } = item;
 
@@ -50,15 +57,12 @@ const PromptContainer = () => {
           title,
           id,
         })),
-        user: user.map(({ name, email, image, _id: { $oid: id } }: any) => ({
-          name,
-          email,
-          image,
-          id,
-        })),
+        user: { name, email, image, id: userid },
         isdeleted,
       };
     });
+
+  searchPrompt && console.log(searchPrompt);
 
   return (
     <>
@@ -85,11 +89,15 @@ const PromptContainer = () => {
           </div>
         </div>
       ) : type === SearchType.Prompt ? (
-        <div className="grid md:grid-cols-3 gap-2 mt-4">
-          {searchPrompt?.map((prompt: any) => (
-            <PromptItem key={prompt.id} prompt={prompt} />
-          ))}
-        </div>
+        searchPrompt && searchPrompt.length > 0 ? (
+          <div className="grid md:grid-cols-3 gap-2 mt-4">
+            {searchPrompt?.map((prompt: any) => (
+              <PromptItem key={prompt.id} prompt={prompt} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-xl">無搜尋結果</div>
+        )
       ) : null}
     </>
   );

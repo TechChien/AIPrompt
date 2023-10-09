@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   try {
     const user = await db.user.findFirst();
     return NextResponse.json({
-      user,
+      success: "good",
     });
   } catch (error) {
     console.log("[TEST_GET_USER_ERROR]", error);

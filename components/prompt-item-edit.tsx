@@ -48,6 +48,10 @@ const PromptItemEdit = ({ prompt }: { prompt: PromptWithUserTags }) => {
     });
   };
 
+  const handleLiClick = (tagId: string) => {
+    router.push(`/post/tag/${tagId}`);
+  };
+
   if (isdeleted) return null;
 
   return (
@@ -66,7 +70,11 @@ const PromptItemEdit = ({ prompt }: { prompt: PromptWithUserTags }) => {
       <div>
         <ul className="flex gap-2">
           {hashtags.map((hash) => (
-            <li className="text-zinc-400 text-xs px-2 mt-3" key={hash.title}>
+            <li
+              onClick={() => handleLiClick(hash.id)}
+              className="text-zinc-400 text-xs px-2 mt-3 cursor-pointer"
+              key={hash.title}
+            >
               {hash.title}
             </li>
           ))}

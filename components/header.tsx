@@ -24,17 +24,7 @@ const Header = () => {
           </span>
         </div>
         <div className="ml-auto flex gap-0 sm:gap-3">
-          {status === "unauthenticated" ? (
-            <>
-              <Button
-                variant="ghost"
-                className="text-xl font-semibold"
-                onClick={() => signIn()}
-              >
-                登入
-              </Button>
-            </>
-          ) : (
+          {status === "authenticated" ? (
             <>
               <Button
                 variant="ghost"
@@ -55,6 +45,16 @@ const Header = () => {
                 alt="image"
                 username={session?.user?.name as string}
               />
+            </>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                className="text-xl font-semibold"
+                onClick={() => signIn()}
+              >
+                登入
+              </Button>
             </>
           )}
         </div>

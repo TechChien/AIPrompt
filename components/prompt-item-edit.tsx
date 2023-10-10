@@ -7,14 +7,24 @@ import { ActionTooltip } from "./action-tooltip";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type PromptWithUserTags = Prompt & {
   user: User;
   hashtags: Hashtag[];
+  queryKey: string;
 };
 
-const PromptItemEdit = ({ prompt }: { prompt: PromptWithUserTags }) => {
+const PromptItemEdit = ({
+  prompt,
+  queryKey,
+}: {
+  prompt: PromptWithUserTags;
+  queryKey: string;
+}) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { data: session } = useSession();
   const { toast } = useToast();
   const {
@@ -33,8 +43,10 @@ const PromptItemEdit = ({ prompt }: { prompt: PromptWithUserTags }) => {
       });
       if (!response.ok) throw new Error("delete post failed");
       const data = await response.json();
-      console.log(data);
-      router.refresh();
+
+      queryClient.resetQueries([queryKey], {
+        exact: true,
+      });
     } catch (error) {
       console.log("delete post error", error);
       throw new Error("delete post error");

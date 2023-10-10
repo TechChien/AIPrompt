@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Fragment, Suspense } from "react";
+import { Fragment, Suspense, useEffect } from "react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -26,6 +26,14 @@ const SearchBar = () => {
     },
   });
 
+  useEffect(() => {
+    if (form) {
+      if (form.getValues("search") === "") {
+        setType(SearchType.None);
+      }
+    }
+  }, [form]);
+
   const {
     isLoading,
     isError,
@@ -37,7 +45,6 @@ const SearchBar = () => {
     fetchStatus,
   } = useSearch(form);
 
-  console.log(form.getValues("search"));
   const onSubmit = (values: z.infer<typeof schema>) => {
     try {
       refetch();

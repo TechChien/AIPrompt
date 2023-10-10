@@ -12,6 +12,8 @@ type UserIdPageProps = {
 };
 
 const UserIdPage = ({ params }: UserIdPageProps) => {
+  const queryKey = `user:${params.userId}`;
+
   const {
     data,
     fetchNextPage,
@@ -20,7 +22,7 @@ const UserIdPage = ({ params }: UserIdPageProps) => {
     status,
     refetch,
   } = usePromptQuery({
-    queryKey: `user:${params.userId}`,
+    queryKey: queryKey,
     apiUrl: "/api/post",
     paramKey: "userId",
     paramValue: params.userId,
@@ -50,7 +52,7 @@ const UserIdPage = ({ params }: UserIdPageProps) => {
             {data?.pages.map((group, index) => (
               <Fragment key={index}>
                 {group.prompts.map((prompt: any) => (
-                  <PromptItemEdit key={prompt.id} prompt={prompt} />
+                  <PromptItemEdit key={prompt.id} {...{ prompt, queryKey }} />
                 ))}
               </Fragment>
             ))}

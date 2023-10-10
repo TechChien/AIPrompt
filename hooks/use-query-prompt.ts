@@ -68,7 +68,6 @@ export const useGetPromptById = (id: string) => {
           type: "all",
         }
       )!;
-      console.log(prompt);
 
       if (prompt) return prompt;
 

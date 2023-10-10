@@ -7,6 +7,9 @@ import Header from "@/components/header";
 import { Providers as AuthProvider } from "@/components/provider/session-provider";
 import { QueryProvider } from "@/components/provider/query-provider";
 import { Toaster } from "@/components/ui/toaster";
+
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,7 +27,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Header />
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            {children}
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          </QueryProvider>
           <Toaster />
         </AuthProvider>
       </body>

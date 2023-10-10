@@ -76,7 +76,7 @@ const CreatePost = () => {
       console.log(d);
 
       formRest();
-      router.push("/");
+      router.back();
     } catch (error) {
       console.log(error);
     }
